@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>KYVEN K1 — The Smartphone of 2035</title>
+  <meta name="description" content="Explore a concept smartphone from 2035 all the way down to a single silicon atom — rendered live in your browser." />
+  <meta name="theme-color" content="#030405" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=2" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body class="loading">
+  <canvas id="gl" aria-label="Interactive 3D model of the KYVEN K1 smartphone"></canvas>
+  <div id="scroll-space" aria-hidden="true"></div>
+
+  <div id="hud">
+    <header class="brand">
+      <div class="brand-mark">KYVEN K1</div>
+      <div class="brand-sub">SYSTEM EXPLORER</div>
+    </header>
+
+    <nav class="actions">
+      <button id="btn-demo" class="pill" type="button"><span class="rec"></span><span class="bl">AUTO DEMO</span></button>
+      <button id="btn-explore" class="pill" type="button"><span class="bl">EXPLORE</span></button>
+    </nav>
+
+    <aside class="levels" aria-label="Scale levels">
+      <ol>
+        <li data-i="0"><b>01</b><span>EXTERIOR</span></li>
+        <li data-i="1"><b>02</b><span>INTERNAL</span></li>
+        <li data-i="2"><b>03</b><span>PROCESSOR</span></li>
+        <li data-i="3"><b>04</b><span>TRANSISTOR</span></li>
+        <li data-i="4"><b>05</b><span>ATOM</span></li>
+      </ol>
+      <div class="levels-track"><i></i></div>
+    </aside>
+
+    <div class="scale" aria-hidden="true">
+      <div class="scale-k">FIELD OF VIEW</div>
+      <div class="scale-v">152 mm</div>
+      <div class="scale-bar"><i></i></div>
+      <div class="scale-m">MAGNIFICATION <em>×1</em></div>
+    </div>
+
+    <section class="hero">
+      <h1><span>KYVEN</span> <span>K1</span></h1>
+      <p class="hero-sub">THE SMARTPHONE OF 2035</p>
+    </section>
+
+    <div class="scroll-hint"><span>SCROLL TO EXPLORE</span><i></i></div>
+
+    <div class="caption" aria-live="polite"><p></p></div>
+
+    <div class="panel" id="panel" aria-live="polite">
+      <div class="panel-k"></div>
+      <h3 class="panel-t"></h3>
+      <ul class="panel-s"></ul>
+      <button class="panel-cta pill" type="button"></button>
+    </div>
+
+    <svg id="leaders" aria-hidden="true"></svg>
+    <div id="labels" aria-hidden="true"></div>
+
+    <div class="explore-bar">
+      <button id="btn-disasm" class="pill" type="button">DISASSEMBLE</button>
+      <span class="hint">DRAG TO ROTATE · SCROLL TO ZOOM · SELECT A COMPONENT</span>
+      <button id="btn-exit" class="pill icon" type="button" aria-label="Exit explore mode">✕</button>
+    </div>
+
+    <div class="final">
+      <button id="btn-replay" class="pill" type="button">REPLAY THE JOURNEY</button>
+    </div>
+  </div>
+
+  <div class="letterbox top"></div>
+  <div class="letterbox bottom"></div>
+
+  <div id="loader">
+    <div class="ld-mark">KYVEN K1</div>
+    <div class="ld-bar"><i></i></div>
+    <div class="ld-status">INITIALIZING</div>
+  </div>
+
+  <noscript><div class="nojs">KYVEN K1 needs JavaScript and WebGL to run.</div></noscript>
+
+  <script src="js/nx.js?v=2"></script>
+  <script src="js/shaders.js?v=2"></script>
+  <script src="js/textures.js?v=2"></script>
+  <script src="js/traces.js?v=2"></script>
+  <script src="js/env.js?v=2"></script>
+  <script src="js/post.js?v=2"></script>
+  <script src="js/phone-parts.js?v=2"></script>
+  <script src="js/phone-internals.js?v=2"></script>
+  <script src="js/phone-internals2.js?v=2"></script>
+  <script src="js/phone-fx.js?v=2"></script>
+  <script src="js/phone.js?v=2"></script>
+  <script src="js/world-phone.js?v=2"></script>
+  <script src="js/world-chip.js?v=2"></script>
+  <script src="js/world-transistor.js?v=2"></script>
+  <script src="js/world-atom.js?v=2"></script>
+  <script src="js/world-data.js?v=2"></script>
+  <script src="js/ui.js?v=2"></script>
+  <script src="js/director.js?v=2"></script>
+  <script src="js/journey.js?v=2"></script>
+  <script src="js/stage.js?v=2"></script>
+  <script src="js/input.js?v=2"></script>
+  <script src="js/app.js?v=2"></script>
+  <script type="module">
+    (async () => {
+      try {
+        const [THREE, oc, ec, ub, op, sp, ps, rb, bgu] = await Promise.all([
+          import('three'),
+          import('three/addons/controls/OrbitControls.js'),
+          import('three/addons/postprocessing/EffectComposer.js'),
+          import('three/addons/postprocessing/UnrealBloomPass.js'),
+          import('three/addons/postprocessing/OutputPass.js'),
+          import('three/addons/postprocessing/ShaderPass.js'),
+          import('three/addons/postprocessing/Pass.js'),
+          import('three/addons/geometries/RoundedBoxGeometry.js'),
+          import('three/addons/utils/BufferGeometryUtils.js'),
+        ]);
+        NX.init(THREE, {
+          OrbitControls: oc.OrbitControls, EffectComposer: ec.EffectComposer, UnrealBloomPass: ub.UnrealBloomPass,
+          OutputPass: op.OutputPass, ShaderPass: sp.ShaderPass, Pass: ps.Pass, FullScreenQuad: ps.FullScreenQuad,
+          RoundedBoxGeometry: rb.RoundedBoxGeometry, BufferGeometryUtils: bgu,
+        });
+        await NX.app.start();
+      } catch (err) {
+        console.error(err);
+        const s = document.querySelector('.ld-status');
+        if (s) s.textContent = 'UNABLE TO START THE 3D ENGINE — ' + (err && err.message ? err.message : err);
+        document.body.classList.add('failed');
+      }
+    })();
+  </script>
+</body>
+</html>
